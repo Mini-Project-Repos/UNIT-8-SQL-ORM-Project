@@ -1,28 +1,35 @@
-const Sequelize = require("sequelize");
-const Sequelize = require("sequelize");
-
-//Connect to a SQLite database.
-/**
- * The variable sequelize now holds a Sequelize instance you can interact with.
- * You initialize the database connection by passing the Sequelize() constructor an object with connection parameters.
- */
-const sequelize = new Sequelize();
-
-//The dialect parameter specifies the specific version of SQL you're using (the SQL dialect of the database), which in this case it's sqlite
-/**
- * Since SQLite is a file-based database that doesn't require credentials or a host, you use the storage key to specify the file path or the storage engine for SQLite.
- * The value 'movies.db' will create a database in your project named 'movies'.
- */
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: "movies.db",
-});
+const db = require("./db");
+const { Movie } = db.models;
 
 // async IIFE
 (async () => {
+  /**
+   * Sequelize provides the sync() method, which automatically creates or updates your database tables (according to your model definition)
+   * we want to create the actual 'Movies' table.
+   * We’ve only defined the model in JavaScript. We need to sync those changes.
+   */
+
+  //Sync all tables
+  /**
+   * the sync() method accepts an object with a force parameter
+   * that lets you control the database synchronization.
+   */
+  await db.sequelize.sync({ force: true });
   try {
-    await sequelize.authenticate();
-    console.log("Connection to the database successful!");
+    //Array of movie data
+    const movies = [{ title: "Toy Story" }, { title: "The Incredibles" }];
+    /**
+     * Movie.create() builds a new model instance, which represents a database row, and automatically stores the instance's data.
+     * It returns a Promise object, which resolves or rejects based on the successful or failed interaction with your database.
+     */
+    // Instance of the Movie class represents a database row
+    //create movies
+    const movieCreations = movies.map(({ title }) => Movie.create({ title }));
+    await Promise.all(movieCreations);
+    // database connection testing
+
+    // await sequelize.authenticate();
+    // console.log("Connection to the database successful!");
   } catch (error) {
     console.error("Error connecting to the database: ", error);
   }

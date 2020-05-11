@@ -14,9 +14,9 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize({
   dialect: "sqlite", //dialect used
   storage: "movies.db", // database name
-  define: {
-    timestamps: false,
-  },
+  // define: {
+  //   timestamps: false,
+  // },
 });
 
 /**

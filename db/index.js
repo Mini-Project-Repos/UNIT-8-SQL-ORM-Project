@@ -14,6 +14,9 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize({
   dialect: "sqlite", //dialect used
   storage: "movies.db", // database name
+  define: {
+    timestamps: false,
+  },
 });
 
 /**
@@ -29,6 +32,8 @@ const db = {
 
 // creates Movie object and gets the model data from movie.js
 db.models.Movie = require("./models/movie.js")(sequelize);
+
+db.models.Person = require("./models/person.js")(sequelize);
 
 //exports file
 module.exports = db;

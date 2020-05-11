@@ -78,7 +78,9 @@ module.exports = (sequelize) => {
       },
     },
     //arg2: model options
-    { sequelize } //same as {sequelize: sequelize}
+    {
+      sequelize, //same as {sequelize: sequelize}
+    }
   );
 
   return Movie;
